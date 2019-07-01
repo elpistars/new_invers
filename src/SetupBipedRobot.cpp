@@ -11,7 +11,7 @@ LINK uLINK;
 Eigen::Vector3f UX(1,0,0);
 Eigen::Vector3f UY(0,1,0);
 Eigen::Vector3f UZ(0,0,1);
-int main(){
+void SetupBipedRobot(){
     const Eigen::IOFormat fmt(3, 0, ", ", ";\n", "", "", "[", "]");
     char buff[100];
     //body
@@ -38,22 +38,12 @@ int main(){
     uLINK.joint_data[1].w=Eigen::RowVector3f (0,0,0);
     for (int i=1;i<=13;i++){
         uLINK.joint_data[i].dq=0;
-        sprintf(buff,"%s\t: sister %d child %d b\t ",
-        uLINK.joint_data[i].name,uLINK.joint_data[i].sister,uLINK.joint_data[i].child);
-        std::cout<<buff<<uLINK.joint_data[i].b.transpose().format(fmt)<<
-        " a "<<uLINK.joint_data[i].a.transpose().format(fmt)<<
-        " q: "<<uLINK.joint_data[i].q<<std::endl;
-       
     }
     FindMother(1);
-    for(int i=1;i<=13;i++){
-        sprintf(buff,"%s\t: mother %d",uLINK.joint_data[i].name,uLINK.joint_data[i].mother);
-        std::cout<<buff<<std::endl;
-    }
     ForwardKinematics(1);
     for(int i=1;i<=13;i++){
         sprintf(buff,"%s\t: p: ",uLINK.joint_data[i].name);
         std::cout<<buff<<uLINK.joint_data[i].p.transpose().format(fmt)<<std::endl;        
     }
-    return 0;
+  
 }
